@@ -4,8 +4,8 @@ import { getThumbnailBlob } from '../helpers/thumbnailHelper'
 /**
  * Returns a video thumbnail URL and a function to revoke it.
  */
-function useVideoThumbnail(videoUrl: string): [string | undefined, () => void] {
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>()
+function useVideoThumbnail(videoUrl){
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(null)
 
   useEffect(() => {
     const video = document.createElement('video')
@@ -23,7 +23,7 @@ function useVideoThumbnail(videoUrl: string): [string | undefined, () => void] {
     }
   }, [videoUrl])
 
-  return [thumbnailUrl, () => URL.revokeObjectURL(thumbnailUrl!)]
+  return [thumbnailUrl, () => URL.revokeObjectURL(thumbnailUrl)]
 }
 
 export default useVideoThumbnail

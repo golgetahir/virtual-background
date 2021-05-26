@@ -1,13 +1,13 @@
 import useImageThumbnail from '../hooks/useImageThumbnail'
 import ThumbnailButton from './TumbnailButton'
 
-type ImageButtonProps = {
+/*type ImageButtonProps = {
   imageUrl: string
   active: boolean
   onClick: () => void
-}
+}*/
 
-function ImageButton(props: ImageButtonProps) {
+function ImageButton(props) {
   const [thumbnailUrl, revokeThumbnailUrl] = useImageThumbnail(props.imageUrl)
 
   return (

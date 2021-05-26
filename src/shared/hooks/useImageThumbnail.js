@@ -4,8 +4,8 @@ import { getThumbnailBlob } from '../helpers/thumbnailHelper'
 /**
  * Returns an image thumbnail URL and a function to revoke it.
  */
-function useImageThumbnail(imageUrl: string): [string | undefined, () => void] {
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>()
+function useImageThumbnail(imageUrl) {
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(null)
 
   useEffect(() => {
     const image = new Image()
@@ -20,7 +20,7 @@ function useImageThumbnail(imageUrl: string): [string | undefined, () => void] {
     }
   }, [imageUrl])
 
-  return [thumbnailUrl, () => URL.revokeObjectURL(thumbnailUrl!)]
+  return [thumbnailUrl, () => URL.revokeObjectURL(thumbnailUrl)]
 }
 
 export default useImageThumbnail

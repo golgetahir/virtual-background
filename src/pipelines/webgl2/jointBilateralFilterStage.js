@@ -1,22 +1,21 @@
 import {
-  inputResolutions,
-  SegmentationConfig,
+  inputResolutions
 } from '../../core/helpers/segmentationHelper'
 import {
   compileShader,
   createPiplelineStageProgram,
-  glsl,
+  glsl
 } from '../helpers/webglHelper'
 
 export function buildJointBilateralFilterStage(
-  gl: WebGL2RenderingContext,
-  vertexShader: WebGLShader,
-  positionBuffer: WebGLBuffer,
-  texCoordBuffer: WebGLBuffer,
-  inputTexture: WebGLTexture,
-  segmentationConfig: SegmentationConfig,
-  outputTexture: WebGLTexture,
-  canvas: HTMLCanvasElement
+  gl,
+  vertexShader,
+  positionBuffer,
+  texCoordBuffer,
+  inputTexture,
+  segmentationConfig,
+  outputTexture,
+  canvas
 ) {
   const fragmentShaderSource = glsl`#version 300 es
 
@@ -130,7 +129,7 @@ export function buildJointBilateralFilterStage(
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
   }
 
-  function updateSigmaSpace(sigmaSpace: number) {
+  function updateSigmaSpace(sigmaSpace) {
     sigmaSpace *= Math.max(
       outputWidth / segmentationWidth,
       outputHeight / segmentationHeight
@@ -150,7 +149,7 @@ export function buildJointBilateralFilterStage(
     gl.uniform1f(sigmaTexelLocation, sigmaTexel)
   }
 
-  function updateSigmaColor(sigmaColor: number) {
+  function updateSigmaColor(sigmaColor) {
     gl.useProgram(program)
     gl.uniform1f(sigmaColorLocation, sigmaColor)
   }

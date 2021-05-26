@@ -5,9 +5,9 @@
  * @param originalHeight The original height of the source before sizing.
  */
 export function getThumbnailBlob(
-  source: HTMLImageElement | HTMLVideoElement,
-  originalWidth: number,
-  originalHeight: number
+  source,
+  originalWidth,
+  originalHeight
 ) {
   const sourceSize = Math.min(originalWidth, originalHeight)
   const horizontalShift = (originalWidth - sourceSize) / 2
@@ -16,7 +16,7 @@ export function getThumbnailBlob(
   const canvas = document.createElement('canvas')
   canvas.width = 63
   canvas.height = 63
-  const ctx = canvas.getContext('2d')!
+  const ctx = canvas.getContext('2d')
   ctx.drawImage(
     source,
     horizontalShift,

@@ -1,23 +1,17 @@
-import { BodyPix } from '@tensorflow-models/body-pix'
-import { BackgroundConfig } from '../../core/helpers/backgroundHelper'
-import { PostProcessingConfig } from '../../core/helpers/postProcessingHelper'
 import {
-  inputResolutions,
-  SegmentationConfig,
+  inputResolutions
 } from '../../core/helpers/segmentationHelper'
-import { SourcePlayback } from '../../core/helpers/sourceHelper'
-import { TFLite } from '../../core/hooks/useTFLite'
 
 export function buildCanvas2dPipeline(
-  sourcePlayback: SourcePlayback,
-  backgroundConfig: BackgroundConfig,
-  segmentationConfig: SegmentationConfig,
-  canvas: HTMLCanvasElement,
-  bodyPix: BodyPix,
-  tflite: TFLite,
-  addFrameEvent: () => void
+  sourcePlayback,
+  backgroundConfig,
+  segmentationConfig,
+  canvas,
+  bodyPix,
+  tflite,
+  addFrameEvent
 ) {
-  const ctx = canvas.getContext('2d')!
+  const ctx = canvas.getContext('2d')
 
   const [segmentationWidth, segmentationHeight] = inputResolutions[
     segmentationConfig.inputResolution
@@ -27,12 +21,12 @@ export function buildCanvas2dPipeline(
   const segmentationMaskCanvas = document.createElement('canvas')
   segmentationMaskCanvas.width = segmentationWidth
   segmentationMaskCanvas.height = segmentationHeight
-  const segmentationMaskCtx = segmentationMaskCanvas.getContext('2d')!
+  const segmentationMaskCtx = segmentationMaskCanvas.getContext('2d')
 
   const inputMemoryOffset = tflite._getInputMemoryOffset() / 4
   const outputMemoryOffset = tflite._getOutputMemoryOffset() / 4
 
-  let postProcessingConfig: PostProcessingConfig
+  let postProcessingConfig
 
   async function render() {
     if (backgroundConfig.type !== 'none') {
@@ -55,7 +49,7 @@ export function buildCanvas2dPipeline(
   }
 
   function updatePostProcessingConfig(
-    newPostProcessingConfig: PostProcessingConfig
+    newPostProcessingConfig
   ) {
     postProcessingConfig = newPostProcessingConfig
   }

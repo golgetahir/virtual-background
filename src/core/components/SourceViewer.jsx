@@ -1,17 +1,16 @@
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import VideocamOffIcon from '@material-ui/icons/VideocamOff'
-import React, { SyntheticEvent, useEffect, useRef, useState } from 'react'
-import { SourceConfig, SourcePlayback } from '../helpers/sourceHelper'
+import React, { useEffect, useRef, useState } from 'react'
 
-type SourceViewerProps = {
+/*type SourceViewerProps = {
   sourceConfig: SourceConfig
   onLoad: (sourcePlayback: SourcePlayback) => void
-}
+}*/
 
-function SourceViewer(props: SourceViewerProps) {
+function SourceViewer(props) {
   const classes = useStyles()
-  const [sourceUrl, setSourceUrl] = useState<string>()
+  const [sourceUrl, setSourceUrl] = useState<string>(null)
   const [isLoading, setLoading] = useState(false)
   const [isCameraError, setCameraError] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -50,8 +49,8 @@ function SourceViewer(props: SourceViewerProps) {
     }
   }, [props.sourceConfig])
 
-  function handleImageLoad(event: SyntheticEvent) {
-    const image = event.target as HTMLImageElement
+  function handleImageLoad(event) {
+    const image = event.target
     props.onLoad({
       htmlElement: image,
       width: image.naturalWidth,
@@ -60,8 +59,8 @@ function SourceViewer(props: SourceViewerProps) {
     setLoading(false)
   }
 
-  function handleVideoLoad(event: SyntheticEvent) {
-    const video = event.target as HTMLVideoElement
+  function handleVideoLoad(event) {
+    const video = event.target
     props.onLoad({
       htmlElement: video,
       width: video.videoWidth,
@@ -101,7 +100,7 @@ function SourceViewer(props: SourceViewerProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       position: 'relative',

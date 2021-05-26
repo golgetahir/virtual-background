@@ -1,22 +1,21 @@
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import BlockIcon from '@material-ui/icons/Block'
 import BlurOnIcon from '@material-ui/icons/BlurOn'
 import ImageButton from '../../shared/components/ImageButton'
 import SelectionIconButton from '../../shared/components/SelectionIconButton'
 import {
-  BackgroundConfig,
-  backgroundImageUrls,
+  backgroundImageUrls
 } from '../helpers/backgroundHelper'
 
-type BackgroundConfigCardProps = {
+/*type BackgroundConfigCardProps = {
   config: BackgroundConfig
   onChange: (config: BackgroundConfig) => void
 }
-
-function BackgroundConfigCard(props: BackgroundConfigCardProps) {
+*/
+function BackgroundConfigCard(props) {
   const classes = useStyles()
 
   return (
@@ -50,7 +49,7 @@ function BackgroundConfigCard(props: BackgroundConfigCardProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flex: 1,

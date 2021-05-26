@@ -1,37 +1,36 @@
 import { useEffect, useState } from 'react'
 import {
-  getTFLiteModelFileName,
-  SegmentationConfig,
+  getTFLiteModelFileName
 } from '../helpers/segmentationHelper'
 
-declare function createTFLiteModule(): Promise<TFLite>
-declare function createTFLiteSIMDModule(): Promise<TFLite>
+//declare function createTFLiteModule(): Promise<TFLite>
+//declare function createTFLiteSIMDModule(): Promise<TFLite>
 
-export interface TFLite extends EmscriptenModule {
-  _getModelBufferMemoryOffset(): number
-  _getInputMemoryOffset(): number
-  _getInputHeight(): number
-  _getInputWidth(): number
-  _getInputChannelCount(): number
-  _getOutputMemoryOffset(): number
-  _getOutputHeight(): number
-  _getOutputWidth(): number
-  _getOutputChannelCount(): number
-  _loadModel(bufferSize: number): number
-  _runInference(): number
-}
+/*export class TFLite extends EmscriptenModule {
+  _getModelBufferMemoryOffset()
+  _getInputMemoryOffset()
+  _getInputHeight()
+  _getInputWidth()
+  _getInputChannelCount()
+  _getOutputMemoryOffset()
+  _getOutputHeight()
+  _getOutputWidth()
+  _getOutputChannelCount()
+  _loadModel(bufferSize)
+  _runInference()
+}*/
 
-function useTFLite(segmentationConfig: SegmentationConfig) {
-  const [tflite, setTFLite] = useState<TFLite>()
-  const [tfliteSIMD, setTFLiteSIMD] = useState<TFLite>()
-  const [selectedTFLite, setSelectedTFLite] = useState<TFLite>()
+function useTFLite(segmentationConfig) {
+  const [tflite, setTFLite] = useState<TFLite>(null)
+  const [tfliteSIMD, setTFLiteSIMD] = useState<TFLite>(null)
+  const [selectedTFLite, setSelectedTFLite] = useState<TFLite>(null)
   const [isSIMDSupported, setSIMDSupported] = useState(false)
 
   useEffect(() => {
     async function loadTFLite() {
-      createTFLiteModule().then(setTFLite)
+      window.createTFLiteModule().then(setTFLite)
       try {
-        const createdTFLiteSIMD = await createTFLiteSIMDModule()
+        const createdTFLiteSIMD = await window.createTFLiteSIMDModule()
         setTFLiteSIMD(createdTFLiteSIMD)
         setSIMDSupported(true)
       } catch (error) {

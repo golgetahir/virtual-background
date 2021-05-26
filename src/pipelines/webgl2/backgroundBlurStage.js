@@ -2,23 +2,23 @@ import {
   compileShader,
   createPiplelineStageProgram,
   createTexture,
-  glsl,
+  glsl
 } from '../helpers/webglHelper'
 
-export type BackgroundBlurStage = {
+/*export type BackgroundBlurStage = {
   render(): void
   updateCoverage(coverage: [number, number]): void
   cleanUp(): void
-}
+}*/
 
 export function buildBackgroundBlurStage(
-  gl: WebGL2RenderingContext,
-  vertexShader: WebGLShader,
-  positionBuffer: WebGLBuffer,
-  texCoordBuffer: WebGLBuffer,
-  personMaskTexture: WebGLTexture,
-  canvas: HTMLCanvasElement
-): BackgroundBlurStage {
+  gl,
+  vertexShader,
+  positionBuffer,
+  texCoordBuffer,
+  personMaskTexture,
+  canvas
+){
   const blurPass = buildBlurPass(
     gl,
     vertexShader,
@@ -34,7 +34,7 @@ export function buildBackgroundBlurStage(
     blendPass.render()
   }
 
-  function updateCoverage(coverage: [number, number]) {
+  function updateCoverage(coverage) {
     blendPass.updateCoverage(coverage)
   }
 
@@ -51,12 +51,12 @@ export function buildBackgroundBlurStage(
 }
 
 function buildBlurPass(
-  gl: WebGL2RenderingContext,
-  vertexShader: WebGLShader,
-  positionBuffer: WebGLBuffer,
-  texCoordBuffer: WebGLBuffer,
-  personMaskTexture: WebGLTexture,
-  canvas: HTMLCanvasElement
+  gl,
+  vertexShader,
+  positionBuffer,
+  texCoordBuffer,
+  personMaskTexture,
+  canvas
 ) {
   const fragmentShaderSource = glsl`#version 300 es
 
@@ -196,10 +196,10 @@ function buildBlurPass(
 }
 
 function buildBlendPass(
-  gl: WebGL2RenderingContext,
-  positionBuffer: WebGLBuffer,
-  texCoordBuffer: WebGLBuffer,
-  canvas: HTMLCanvasElement
+  gl,
+  positionBuffer,
+  texCoordBuffer,
+  canvas
 ) {
   const vertexShaderSource = glsl`#version 300 es
 
@@ -273,7 +273,7 @@ function buildBlendPass(
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
   }
 
-  function updateCoverage(coverage: [number, number]) {
+  function updateCoverage(coverage) {
     gl.useProgram(program)
     gl.uniform2f(coverageLocation, coverage[0], coverage[1])
   }

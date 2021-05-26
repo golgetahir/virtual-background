@@ -1,25 +1,19 @@
-import { BodyPix } from '@tensorflow-models/body-pix'
 import { useEffect, useRef, useState } from 'react'
 import { buildCanvas2dPipeline } from '../../pipelines/canvas2d/canvas2dPipeline'
 import { buildWebGL2Pipeline } from '../../pipelines/webgl2/webgl2Pipeline'
-import { BackgroundConfig } from '../helpers/backgroundHelper'
-import { RenderingPipeline } from '../helpers/renderingPipelineHelper'
-import { SegmentationConfig } from '../helpers/segmentationHelper'
-import { SourcePlayback } from '../helpers/sourceHelper'
-import { TFLite } from './useTFLite'
 
 function useRenderingPipeline(
-  sourcePlayback: SourcePlayback,
-  backgroundConfig: BackgroundConfig,
-  segmentationConfig: SegmentationConfig,
-  bodyPix: BodyPix,
-  tflite: TFLite
+  sourcePlayback,
+  backgroundConfig,
+  segmentationConfig,
+  bodyPix,
+  tflite
 ) {
   const [pipeline, setPipeline] = useState<RenderingPipeline | null>(null)
   const backgroundImageRef = useRef<HTMLImageElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null!)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const [fps, setFps] = useState(0)
-  const [durations, setDurations] = useState<number[]>([])
+  const [durations, setDurations] = useState<number>([])
 
   useEffect(() => {
     // The useEffect cleanup function is not enough to stop
@@ -30,9 +24,9 @@ function useRenderingPipeline(
     let beginTime = 0
     let eventCount = 0
     let frameCount = 0
-    const frameDurations: number[] = []
+    const frameDurations = []
 
-    let renderRequestId: number
+    let renderRequestId
 
     const newPipeline =
       segmentationConfig.pipeline === 'webgl2'

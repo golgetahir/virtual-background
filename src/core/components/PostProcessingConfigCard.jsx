@@ -6,27 +6,22 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import Slider from '@material-ui/core/Slider'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
-import React, { ChangeEvent } from 'react'
-import {
-  BlendMode,
-  PostProcessingConfig,
-} from '../helpers/postProcessingHelper'
-import { PipelineName } from '../helpers/segmentationHelper'
+import React from 'react'
 
-type PostProcessingConfigCardProps = {
+/*type PostProcessingConfigCardProps = {
   config: PostProcessingConfig
   pipeline: PipelineName
   onChange: (config: PostProcessingConfig) => void
 }
-
-function PostProcessingConfigCard(props: PostProcessingConfigCardProps) {
+*/
+function PostProcessingConfigCard(props) {
   const classes = useStyles()
 
   function handleSmoothSegmentationMaskChange(
-    event: ChangeEvent<HTMLInputElement>
+    event
   ) {
     props.onChange({
       ...props.config,
@@ -34,44 +29,44 @@ function PostProcessingConfigCard(props: PostProcessingConfigCardProps) {
     })
   }
 
-  function handleSigmaSpaceChange(_event: any, value: number | number[]) {
+  function handleSigmaSpaceChange(_event, value) {
     props.onChange({
       ...props.config,
       jointBilateralFilter: {
         ...props.config.jointBilateralFilter,
-        sigmaSpace: value as number,
+        sigmaSpace: value,
       },
     })
   }
 
-  function handleSigmaColorChange(_event: any, value: number | number[]) {
+  function handleSigmaColorChange(_event, value) {
     props.onChange({
       ...props.config,
       jointBilateralFilter: {
         ...props.config.jointBilateralFilter,
-        sigmaColor: value as number,
+        sigmaColor: value,
       },
     })
   }
 
-  function handleCoverageChange(_event: any, value: number | number[]) {
+  function handleCoverageChange(_event, value) {
     props.onChange({
       ...props.config,
-      coverage: value as [number, number],
+      coverage: value,
     })
   }
 
-  function handleLightWrappingChange(_event: any, value: number | number[]) {
+  function handleLightWrappingChange(_event, value) {
     props.onChange({
       ...props.config,
-      lightWrapping: value as number,
+      lightWrapping: value,
     })
   }
 
-  function handleBlendModeChange(event: ChangeEvent<{ value: unknown }>) {
+  function handleBlendModeChange(event) {
     props.onChange({
       ...props.config,
-      blendMode: event.target.value as BlendMode,
+      blendMode: event.target.value,
     })
   }
 
@@ -154,7 +149,7 @@ function PostProcessingConfigCard(props: PostProcessingConfigCardProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     lightWrapping: {
       display: 'flex',

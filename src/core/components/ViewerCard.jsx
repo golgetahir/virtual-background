@@ -1,28 +1,22 @@
 import Avatar from '@material-ui/core/Avatar'
 import Paper from '@material-ui/core/Paper'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import { BodyPix } from '@tensorflow-models/body-pix'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import { useEffect, useState } from 'react'
-import { BackgroundConfig } from '../helpers/backgroundHelper'
-import { PostProcessingConfig } from '../helpers/postProcessingHelper'
-import { SegmentationConfig } from '../helpers/segmentationHelper'
-import { SourceConfig, SourcePlayback } from '../helpers/sourceHelper'
-import { TFLite } from '../hooks/useTFLite'
 import OutputViewer from './OutputViewer'
 import SourceViewer from './SourceViewer'
 
-type ViewerCardProps = {
+/*type ViewerCardProps = {
   sourceConfig: SourceConfig
   backgroundConfig: BackgroundConfig
   segmentationConfig: SegmentationConfig
   postProcessingConfig: PostProcessingConfig
   bodyPix?: BodyPix
   tflite?: TFLite
-}
+}*/
 
-function ViewerCard(props: ViewerCardProps) {
+function ViewerCard(props) {
   const classes = useStyles()
-  const [sourcePlayback, setSourcePlayback] = useState<SourcePlayback>()
+  const [sourcePlayback, setSourcePlayback] = useState<SourcePlayback>(null)
 
   useEffect(() => {
     setSourcePlayback(undefined)
@@ -52,7 +46,7 @@ function ViewerCard(props: ViewerCardProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) => {
+const useStyles = makeStyles((theme) => {
   const minHeight = [`${theme.spacing(52)}px`, `100vh - ${theme.spacing(2)}px`]
 
   return createStyles({

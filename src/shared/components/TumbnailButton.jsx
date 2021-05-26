@@ -1,17 +1,17 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Skeleton from '@material-ui/lab/Skeleton'
 import clsx from 'clsx'
 import SelectionButton from './SelectionButton'
 
-type ThumbnailButtonProps = {
+/*type ThumbnailButtonProps = {
   thumbnailUrl?: string
   active: boolean
   children?: React.ReactNode
   onClick: () => void
   onLoad?: () => void
-}
+}*/
 
-function ThumbnailButton(props: ThumbnailButtonProps) {
+function ThumbnailButton(props) {
   const classes = useStyles()
 
   return (
@@ -35,7 +35,7 @@ function ThumbnailButton(props: ThumbnailButtonProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     scalableContent: {
       // Fixes rendering issues with border when scaled

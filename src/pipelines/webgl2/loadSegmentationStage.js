@@ -1,23 +1,21 @@
 import {
-  inputResolutions,
-  SegmentationConfig,
+  inputResolutions
 } from '../../core/helpers/segmentationHelper'
-import { TFLite } from '../../core/hooks/useTFLite'
 import {
   compileShader,
   createPiplelineStageProgram,
   createTexture,
-  glsl,
+  glsl
 } from '../helpers/webglHelper'
 
 export function buildLoadSegmentationStage(
-  gl: WebGL2RenderingContext,
-  vertexShader: WebGLShader,
-  positionBuffer: WebGLBuffer,
-  texCoordBuffer: WebGLBuffer,
-  segmentationConfig: SegmentationConfig,
-  tflite: TFLite,
-  outputTexture: WebGLTexture
+  gl,
+  vertexShader,
+  positionBuffer,
+  texCoordBuffer,
+  segmentationConfig,
+  tflite,
+  outputTexture
 ) {
   const fragmentShaderSource = glsl`#version 300 es
 

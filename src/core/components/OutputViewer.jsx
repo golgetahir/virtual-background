@@ -1,24 +1,18 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { BodyPix } from '@tensorflow-models/body-pix'
 import React, { useEffect } from 'react'
-import { BackgroundConfig } from '../helpers/backgroundHelper'
-import { PostProcessingConfig } from '../helpers/postProcessingHelper'
-import { SegmentationConfig } from '../helpers/segmentationHelper'
-import { SourcePlayback } from '../helpers/sourceHelper'
 import useRenderingPipeline from '../hooks/useRenderingPipeline'
-import { TFLite } from '../hooks/useTFLite'
 
-type OutputViewerProps = {
+/*type OutputViewerProps = {
   sourcePlayback: SourcePlayback
   backgroundConfig: BackgroundConfig
   segmentationConfig: SegmentationConfig
   postProcessingConfig: PostProcessingConfig
   bodyPix: BodyPix
   tflite: TFLite
-}
+}*/
 
-function OutputViewer(props: OutputViewerProps) {
+function OutputViewer(props) {
   const classes = useStyles()
   const {
     pipeline,
@@ -74,7 +68,7 @@ function OutputViewer(props: OutputViewerProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flex: 1,

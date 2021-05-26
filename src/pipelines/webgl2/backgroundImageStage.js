@@ -1,27 +1,26 @@
-import { BlendMode } from '../../core/helpers/postProcessingHelper'
 import {
   compileShader,
   createPiplelineStageProgram,
   createTexture,
-  glsl,
+  glsl
 } from '../helpers/webglHelper'
 
-export type BackgroundImageStage = {
+/*export type BackgroundImageStage = {
   render(): void
   updateCoverage(coverage: [number, number]): void
   updateLightWrapping(lightWrapping: number): void
   updateBlendMode(blendMode: BlendMode): void
   cleanUp(): void
-}
+}*/
 
 export function buildBackgroundImageStage(
-  gl: WebGL2RenderingContext,
-  positionBuffer: WebGLBuffer,
-  texCoordBuffer: WebGLBuffer,
-  personMaskTexture: WebGLTexture,
-  backgroundImage: HTMLImageElement | null,
-  canvas: HTMLCanvasElement
-): BackgroundImageStage {
+  gl,
+  positionBuffer,
+  texCoordBuffer,
+  personMaskTexture,
+  backgroundImage,
+  canvas
+){
   const vertexShaderSource = glsl`#version 300 es
 
     uniform vec2 u_backgroundScale;
@@ -121,7 +120,7 @@ export function buildBackgroundImageStage(
   gl.uniform1f(lightWrappingLocation, 0)
   gl.uniform1f(blendModeLocation, 0)
 
-  let backgroundTexture: WebGLTexture | null = null
+  let backgroundTexture = null
   // TODO Find a better to handle background being loaded
   if (backgroundImage?.complete) {
     updateBackgroundImage(backgroundImage)
@@ -146,7 +145,7 @@ export function buildBackgroundImageStage(
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
   }
 
-  function updateBackgroundImage(backgroundImage: HTMLImageElement) {
+  function updateBackgroundImage(backgroundImage) {
     backgroundTexture = createTexture(
       gl,
       gl.RGBA8,
@@ -189,17 +188,17 @@ export function buildBackgroundImageStage(
     gl.uniform2f(backgroundOffsetLocation, xOffset, yOffset)
   }
 
-  function updateCoverage(coverage: [number, number]) {
+  function updateCoverage(coverage) {
     gl.useProgram(program)
     gl.uniform2f(coverageLocation, coverage[0], coverage[1])
   }
 
-  function updateLightWrapping(lightWrapping: number) {
+  function updateLightWrapping(lightWrapping) {
     gl.useProgram(program)
     gl.uniform1f(lightWrappingLocation, lightWrapping)
   }
 
-  function updateBlendMode(blendMode: BlendMode) {
+  function updateBlendMode(blendMode) {
     gl.useProgram(program)
     gl.uniform1f(blendModeLocation, blendMode === 'screen' ? 0 : 1)
   }

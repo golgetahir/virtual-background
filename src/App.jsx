@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import { useEffect, useState } from 'react'
 import BackgroundConfigCard from './core/components/BackgroundConfigCard'
 import PostProcessingConfigCard from './core/components/PostProcessingConfigCard'
@@ -6,12 +6,9 @@ import SegmentationConfigCard from './core/components/SegmentationConfigCard'
 import SourceConfigCard from './core/components/SourceConfigCard'
 import ViewerCard from './core/components/ViewerCard'
 import {
-  BackgroundConfig,
-  backgroundImageUrls,
+  backgroundImageUrls
 } from './core/helpers/backgroundHelper'
-import { PostProcessingConfig } from './core/helpers/postProcessingHelper'
-import { SegmentationConfig } from './core/helpers/segmentationHelper'
-import { SourceConfig, sourceImageUrls } from './core/helpers/sourceHelper'
+import { sourceImageUrls } from './core/helpers/sourceHelper'
 import useBodyPix from './core/hooks/useBodyPix'
 import useTFLite from './core/hooks/useTFLite'
 
@@ -86,7 +83,7 @@ function App() {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: 'grid',

@@ -1,23 +1,22 @@
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import VideocamIcon from '@material-ui/icons/Videocam'
 import ImageButton from '../../shared/components/ImageButton'
 import SelectionIconButton from '../../shared/components/SelectionIconButton'
 import VideoButton from '../../shared/components/VideoButton'
 import {
-  SourceConfig,
   sourceImageUrls,
-  sourceVideoUrls,
+  sourceVideoUrls
 } from '../helpers/sourceHelper'
 
-type SourceConfigCardProps = {
+/*type SourceConfigCardProps = {
   config: SourceConfig
   onChange: (config: SourceConfig) => void
-}
+}*/
 
-function SourceConfigCard(props: SourceConfigCardProps) {
+function SourceConfigCard(props) {
   const classes = useStyles()
 
   return (
@@ -53,7 +52,7 @@ function SourceConfigCard(props: SourceConfigCardProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flex: 1,

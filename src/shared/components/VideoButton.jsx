@@ -1,15 +1,15 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
 import useVideoThumbnail from '../hooks/useVideoThumbnail'
 import ThumbnailButton from './TumbnailButton'
 
-type VideoButtonProps = {
+/*type VideoButtonProps = {
   videoUrl: string
   active: boolean
   onClick: () => void
-}
+}*/
 
-function VideoButton(props: VideoButtonProps) {
+function VideoButton(props) {
   const classes = useStyles()
   const [thumbnailUrl, revokeThumbnailUrl] = useVideoThumbnail(props.videoUrl)
 
@@ -25,7 +25,7 @@ function VideoButton(props: VideoButtonProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     icon: {
       position: 'absolute',

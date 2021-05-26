@@ -10,11 +10,11 @@
 export const glsl = String.raw
 
 export function createPiplelineStageProgram(
-  gl: WebGL2RenderingContext,
-  vertexShader: WebGLShader,
-  fragmentShader: WebGLShader,
-  positionBuffer: WebGLBuffer,
-  texCoordBuffer: WebGLBuffer
+  gl,
+  vertexShader,
+  fragmentShader,
+  positionBuffer,
+  texCoordBuffer
 ) {
   const program = createProgram(gl, vertexShader, fragmentShader)
 
@@ -32,11 +32,11 @@ export function createPiplelineStageProgram(
 }
 
 export function createProgram(
-  gl: WebGL2RenderingContext,
-  vertexShader: WebGLShader,
-  fragmentShader: WebGLShader
+  gl,
+  vertexShader,
+  fragmentShader
 ) {
-  const program = gl.createProgram()!
+  const program = gl.createProgram()
   gl.attachShader(program, vertexShader)
   gl.attachShader(program, fragmentShader)
   gl.linkProgram(program)
@@ -49,11 +49,11 @@ export function createProgram(
 }
 
 export function compileShader(
-  gl: WebGL2RenderingContext,
-  shaderType: number,
-  shaderSource: string
+  gl,
+  shaderType,
+  shaderSource
 ) {
-  const shader = gl.createShader(shaderType)!
+  const shader = gl.createShader(shaderType)
   gl.shaderSource(shader, shaderSource)
   gl.compileShader(shader)
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -63,10 +63,10 @@ export function compileShader(
 }
 
 export function createTexture(
-  gl: WebGL2RenderingContext,
-  internalformat: number,
-  width: number,
-  height: number,
+  gl,
+  internalformat,
+  width,
+  height,
   minFilter = gl.NEAREST,
   magFilter = gl.NEAREST
 ) {
@@ -81,16 +81,16 @@ export function createTexture(
 }
 
 export async function readPixelsAsync(
-  gl: WebGL2RenderingContext,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  format: number,
-  type: number,
-  dest: ArrayBufferView
+  gl,
+  x,
+  y,
+  width,
+  height,
+  format,
+  type,
+  dest
 ) {
-  const buf = gl.createBuffer()!
+  const buf = gl.createBuffer()
   gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buf)
   gl.bufferData(gl.PIXEL_PACK_BUFFER, dest.byteLength, gl.STREAM_READ)
   gl.readPixels(x, y, width, height, format, type, 0)
@@ -103,15 +103,15 @@ export async function readPixelsAsync(
 }
 
 async function getBufferSubDataAsync(
-  gl: WebGL2RenderingContext,
-  target: number,
-  buffer: WebGLBuffer,
-  srcByteOffset: number,
-  dstBuffer: ArrayBufferView,
-  dstOffset?: number,
-  length?: number
+  gl,
+  target,
+  buffer,
+  srcByteOffset,
+  dstBuffer,
+  dstOffset,
+  length
 ) {
-  const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0)!
+  const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0)
   gl.flush()
   const res = await clientWaitAsync(gl, sync)
   gl.deleteSync(sync)
@@ -123,7 +123,7 @@ async function getBufferSubDataAsync(
   }
 }
 
-function clientWaitAsync(gl: WebGL2RenderingContext, sync: WebGLSync) {
+function clientWaitAsync(gl, sync) {
   return new Promise<number>((resolve) => {
     function test() {
       const res = gl.clientWaitSync(sync, 0, 0)

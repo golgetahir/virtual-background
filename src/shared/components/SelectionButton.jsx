@@ -1,15 +1,15 @@
 import Button from '@material-ui/core/Button'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-type SelectionButtonProps = {
+/*type SelectionButtonProps = {
   active: boolean
   disabled?: boolean
   children: React.ReactNode
   onClick: () => void
-}
+}*/
 
-function SelectionButton(props: SelectionButtonProps) {
+function SelectionButton(props) {
   const classes = useStyles()
 
   return (
@@ -23,7 +23,7 @@ function SelectionButton(props: SelectionButtonProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       padding: 0,

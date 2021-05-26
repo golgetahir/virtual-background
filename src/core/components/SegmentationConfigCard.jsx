@@ -4,28 +4,20 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { ChangeEvent } from 'react'
-import {
-  InputResolution,
-  PipelineName,
-  SegmentationBackend,
-  SegmentationConfig,
-  SegmentationModel,
-} from '../helpers/segmentationHelper'
 
-type SegmentationConfigCardProps = {
+/*type SegmentationConfigCardProps = {
   config: SegmentationConfig
   isSIMDSupported: boolean
   onChange: (config: SegmentationConfig) => void
-}
+}*/
 
-function SegmentationConfigCard(props: SegmentationConfigCardProps) {
+function SegmentationConfigCard(props) {
   const classes = useStyles()
 
-  function handleModelChange(event: ChangeEvent<{ value: unknown }>) {
-    const model = event.target.value as SegmentationModel
+  function handleModelChange(event) {
+    const model = event.target.value
     let backend = props.config.backend
     let inputResolution = props.config.inputResolution
     let pipeline = props.config.pipeline
@@ -67,24 +59,24 @@ function SegmentationConfigCard(props: SegmentationConfigCardProps) {
     })
   }
 
-  function handleBackendChange(event: ChangeEvent<{ value: unknown }>) {
+  function handleBackendChange(event) {
     props.onChange({
       ...props.config,
-      backend: event.target.value as SegmentationBackend,
+      backend: event.target.value,
     })
   }
 
-  function handleInputResolutionChange(event: ChangeEvent<{ value: unknown }>) {
+  function handleInputResolutionChange(event) {
     props.onChange({
       ...props.config,
-      inputResolution: event.target.value as InputResolution,
+      inputResolution: event.target.value,
     })
   }
 
-  function handlePipelineChange(event: ChangeEvent<{ value: unknown }>) {
+  function handlePipelineChange(event) {
     props.onChange({
       ...props.config,
-      pipeline: event.target.value as PipelineName,
+      pipeline: event.target.value,
     })
   }
 
@@ -188,7 +180,7 @@ function SegmentationConfigCard(props: SegmentationConfigCardProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       [theme.breakpoints.only('md')]: {

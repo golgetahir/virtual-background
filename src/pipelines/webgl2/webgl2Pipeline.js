@@ -1,19 +1,12 @@
-import { BackgroundConfig } from '../../core/helpers/backgroundHelper'
-import { PostProcessingConfig } from '../../core/helpers/postProcessingHelper'
 import {
-  inputResolutions,
-  SegmentationConfig,
+  inputResolutions
 } from '../../core/helpers/segmentationHelper'
-import { SourcePlayback } from '../../core/helpers/sourceHelper'
-import { TFLite } from '../../core/hooks/useTFLite'
 import { compileShader, createTexture, glsl } from '../helpers/webglHelper'
 import {
-  BackgroundBlurStage,
-  buildBackgroundBlurStage,
+  buildBackgroundBlurStage
 } from './backgroundBlurStage'
 import {
-  BackgroundImageStage,
-  buildBackgroundImageStage,
+  buildBackgroundImageStage
 } from './backgroundImageStage'
 import { buildJointBilateralFilterStage } from './jointBilateralFilterStage'
 import { buildLoadSegmentationStage } from './loadSegmentationStage'
@@ -21,13 +14,13 @@ import { buildResizingStage } from './resizingStage'
 import { buildSoftmaxStage } from './softmaxStage'
 
 export function buildWebGL2Pipeline(
-  sourcePlayback: SourcePlayback,
-  backgroundImage: HTMLImageElement | null,
-  backgroundConfig: BackgroundConfig,
-  segmentationConfig: SegmentationConfig,
-  canvas: HTMLCanvasElement,
-  tflite: TFLite,
-  addFrameEvent: () => void
+  sourcePlayback,
+  backgroundImage,
+  backgroundConfig,
+  segmentationConfig,
+  canvas,
+  tflite,
+  addFrameEvent
 ) {
   const vertexShaderSource = glsl`#version 300 es
 
@@ -47,14 +40,14 @@ export function buildWebGL2Pipeline(
     segmentationConfig.inputResolution
   ]
 
-  const gl = canvas.getContext('webgl2')!
+  const gl = canvas.getContext('webgl2')
 
   const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
 
   const vertexArray = gl.createVertexArray()
   gl.bindVertexArray(vertexArray)
 
-  const positionBuffer = gl.createBuffer()!
+  const positionBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
   gl.bufferData(
     gl.ARRAY_BUFFER,
@@ -62,7 +55,7 @@ export function buildWebGL2Pipeline(
     gl.STATIC_DRAW
   )
 
-  const texCoordBuffer = gl.createBuffer()!
+  const texCoordBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer)
   gl.bufferData(
     gl.ARRAY_BUFFER,
@@ -87,13 +80,13 @@ export function buildWebGL2Pipeline(
     gl.RGBA8,
     segmentationWidth,
     segmentationHeight
-  )!
+  )
   const personMaskTexture = createTexture(
     gl,
     gl.RGBA8,
     frameWidth,
     frameHeight
-  )!
+  )
 
   const resizingStage = buildResizingStage(
     gl,
@@ -186,7 +179,7 @@ export function buildWebGL2Pipeline(
   }
 
   function updatePostProcessingConfig(
-    postProcessingConfig: PostProcessingConfig
+    postProcessingConfig
   ) {
     jointBilateralFilterStage.updateSigmaSpace(
       postProcessingConfig.jointBilateralFilter.sigmaSpace
@@ -196,18 +189,18 @@ export function buildWebGL2Pipeline(
     )
 
     if (backgroundConfig.type === 'image') {
-      const backgroundImageStage = backgroundStage as BackgroundImageStage
+      const backgroundImageStage = backgroundStage
       backgroundImageStage.updateCoverage(postProcessingConfig.coverage)
       backgroundImageStage.updateLightWrapping(
         postProcessingConfig.lightWrapping
       )
       backgroundImageStage.updateBlendMode(postProcessingConfig.blendMode)
     } else if (backgroundConfig.type === 'blur') {
-      const backgroundBlurStage = backgroundStage as BackgroundBlurStage
+      const backgroundBlurStage = backgroundStage
       backgroundBlurStage.updateCoverage(postProcessingConfig.coverage)
     } else {
       // TODO Handle no background in a separate pipeline path
-      const backgroundImageStage = backgroundStage as BackgroundImageStage
+      const backgroundImageStage = backgroundStage
       backgroundImageStage.updateCoverage([0, 0.9999])
       backgroundImageStage.updateLightWrapping(0)
     }

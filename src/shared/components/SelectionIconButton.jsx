@@ -1,13 +1,13 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import SelectionButton from './SelectionButton'
 
-type SelectionIconButtonProps = {
+/*type SelectionIconButtonProps = {
   active: boolean
   children: React.ReactNode
   onClick: () => void
-}
+}*/
 
-function SelectionIconButton(props: SelectionIconButtonProps) {
+function SelectionIconButton(props) {
   const classes = useStyles()
 
   return (
@@ -17,7 +17,7 @@ function SelectionIconButton(props: SelectionIconButtonProps) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       width: '100%',
