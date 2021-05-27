@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs'
 import { useEffect, useState } from 'react'
 
 function useBodyPix() {
-  const [bodyPix, setBodyPix] = useState<tfBodyPix.BodyPix>(null)
+  const [bodyPix, setBodyPix] = useState()
 
   useEffect(() => {
     async function loadBodyPix() {

@@ -21,9 +21,9 @@ import {
 }*/
 
 function useTFLite(segmentationConfig) {
-  const [tflite, setTFLite] = useState<TFLite>(null)
-  const [tfliteSIMD, setTFLiteSIMD] = useState<TFLite>(null)
-  const [selectedTFLite, setSelectedTFLite] = useState<TFLite>(null)
+  const [tflite, setTFLite] = useState()
+  const [tfliteSIMD, setTFLiteSIMD] = useState()
+  const [selectedTFLite, setSelectedTFLite] = useState()
   const [isSIMDSupported, setSIMDSupported] = useState(false)
 
   useEffect(() => {

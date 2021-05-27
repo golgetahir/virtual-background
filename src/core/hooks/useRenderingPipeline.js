@@ -9,11 +9,11 @@ function useRenderingPipeline(
   bodyPix,
   tflite
 ) {
-  const [pipeline, setPipeline] = useState<RenderingPipeline | null>(null)
-  const backgroundImageRef = useRef<HTMLImageElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [pipeline, setPipeline] = useState()
+  const backgroundImageRef = useRef()
+  const canvasRef = useRef()
   const [fps, setFps] = useState(0)
-  const [durations, setDurations] = useState<number>([])
+  const [durations, setDurations] = useState([])
 
   useEffect(() => {
     // The useEffect cleanup function is not enough to stop

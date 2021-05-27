@@ -124,7 +124,7 @@ async function getBufferSubDataAsync(
 }
 
 function clientWaitAsync(gl, sync) {
-  return new Promise<number>((resolve) => {
+  return new Promise((resolve) => {
     function test() {
       const res = gl.clientWaitSync(sync, 0, 0)
       if (res === gl.WAIT_FAILED) {

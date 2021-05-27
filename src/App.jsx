@@ -14,18 +14,18 @@ import useTFLite from './core/hooks/useTFLite'
 
 function App() {
   const classes = useStyles()
-  const [sourceConfig, setSourceConfig] = useState<SourceConfig>({
+  const [sourceConfig, setSourceConfig] = useState({
     type: 'image',
     url: sourceImageUrls[0],
   })
-  const [backgroundConfig, setBackgroundConfig] = useState<BackgroundConfig>({
+  const [backgroundConfig, setBackgroundConfig] = useState({
     type: 'image',
     url: backgroundImageUrls[0],
   })
   const [
     segmentationConfig,
     setSegmentationConfig,
-  ] = useState<SegmentationConfig>({
+  ] = useState({
     model: 'meet',
     backend: 'wasm',
     inputResolution: '160x96',
@@ -34,7 +34,7 @@ function App() {
   const [
     postProcessingConfig,
     setPostProcessingConfig,
-  ] = useState<PostProcessingConfig>({
+  ] = useState({
     smoothSegmentationMask: true,
     jointBilateralFilter: { sigmaSpace: 1, sigmaColor: 0.1 },
     coverage: [0.5, 0.75],

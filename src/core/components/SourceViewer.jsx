@@ -10,10 +10,10 @@ import React, { useEffect, useRef, useState } from 'react'
 
 function SourceViewer(props) {
   const classes = useStyles()
-  const [sourceUrl, setSourceUrl] = useState<string>(null)
+  const [sourceUrl, setSourceUrl] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isCameraError, setCameraError] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const videoRef = useRef()
 
   useEffect(() => {
     setSourceUrl(undefined)

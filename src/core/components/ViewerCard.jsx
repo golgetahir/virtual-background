@@ -16,7 +16,7 @@ import SourceViewer from './SourceViewer'
 
 function ViewerCard(props) {
   const classes = useStyles()
-  const [sourcePlayback, setSourcePlayback] = useState<SourcePlayback>(null)
+  const [sourcePlayback, setSourcePlayback] = useState()
 
   useEffect(() => {
     setSourcePlayback(undefined)

@@ -29,7 +29,7 @@ export function getThumbnailBlob(
     canvas.height
   )
 
-  return new Promise<Blob | null>((resolve) =>
+  return new Promise((resolve) =>
     canvas.toBlob((blob) => resolve(blob))
   )
 }
