@@ -7,11 +7,11 @@ function useRenderingPipeline(
   backgroundConfig,
   segmentationConfig,
   bodyPix,
-  tflite
+  tflite,
+  canvasRef
 ) {
   const [pipeline, setPipeline] = useState()
   const backgroundImageRef = useRef()
-  const canvasRef = useRef()
   const [fps, setFps] = useState(0)
   const [durations, setDurations] = useState([])
 
@@ -111,7 +111,6 @@ function useRenderingPipeline(
   return {
     pipeline,
     backgroundImageRef,
-    canvasRef,
     fps,
     durations,
   }

@@ -29,13 +29,13 @@ function useTFLite(segmentationConfig) {
   useEffect(() => {
     async function loadTFLite() {
       window.createTFLiteModule().then(setTFLite)
-      try {
+      /*try {
         const createdTFLiteSIMD = await window.createTFLiteSIMDModule()
         setTFLiteSIMD(createdTFLiteSIMD)
         setSIMDSupported(true)
       } catch (error) {
         console.warn('Failed to create TFLite SIMD WebAssembly module.', error)
-      }
+      }*/
     }
 
     loadTFLite()
@@ -55,8 +55,7 @@ function useTFLite(segmentationConfig) {
 
       setSelectedTFLite(undefined)
 
-      const newSelectedTFLite =
-        segmentationConfig.backend === 'wasmSimd' ? tfliteSIMD : tflite
+      const newSelectedTFLite = tflite
 
       if (!newSelectedTFLite) {
         throw new Error(

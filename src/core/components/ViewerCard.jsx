@@ -1,9 +1,10 @@
 import Avatar from '@material-ui/core/Avatar'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Paper from '@material-ui/core/Paper'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
-import { useEffect, useState } from 'react'
+import VideocamOffIcon from '@material-ui/icons/VideocamOff'
+import React, { useEffect, useRef, useState } from 'react'
 import OutputViewer from './OutputViewer'
-import SourceViewer from './SourceViewer'
 
 /*type ViewerCardProps = {
   sourceConfig: SourceConfig
@@ -17,19 +18,86 @@ import SourceViewer from './SourceViewer'
 function ViewerCard(props) {
   const classes = useStyles()
   const [sourcePlayback, setSourcePlayback] = useState()
+  const [sourceUrl, setSourceUrl] = useState()
+  const [isLoading, setLoading] = useState(false)
+  const [isCameraError, setCameraError] = useState(false)
+  const videoRef = useRef()
 
   useEffect(() => {
     setSourcePlayback(undefined)
   }, [props.sourceConfig])
+  
+  useEffect(() => {
+    setSourceUrl(undefined)
+    setLoading(true)
+    setCameraError(false)
+
+    // Enforces reloading the resource, otherwise
+    // onLoad event is not always dispatched and the
+    // progress indicator never disappears
+    setTimeout(() => setSourceUrl(props.sourceConfig.url))
+  }, [props.sourceConfig])
+  console.log("type check = " + props.sourceConfig.type)
+  useEffect(() => {
+    async function getCameraStream() {
+      console.log("get camera stream called")
+      try {
+        const constraint = { video: true }
+        const stream = await navigator.mediaDevices.getUserMedia(constraint)
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream
+          return
+        }
+      } catch (error) {
+        console.error('Error opening video camera.', error)
+      }
+      setLoading(false)
+      setCameraError(true)
+    }
+    console.log("type check = " + props.sourceConfig.type)
+    if (props.sourceConfig.type === 'camera') {
+      getCameraStream()
+    } else if (videoRef.current) {
+      videoRef.current.srcObject = null
+      videoRef.current.play()
+    }
+  }, [props.sourceConfig])
+
+  function handleVideoLoad(event) {
+    const video = event.target
+    console.log("video = " + video) 
+    setSourcePlayback({
+      htmlElement: video,
+      width: video.videoWidth,
+      height: video.videoHeight,
+    })
+    setLoading(false)
+  }
+
+
 
   return (
     <Paper className={classes.root}>
-      <SourceViewer
-        sourceConfig={props.sourceConfig}
-        onLoad={setSourcePlayback}
-      />
+      {isLoading && <CircularProgress />}
+      {isCameraError ? (
+        <VideocamOffIcon fontSize="large" />
+      ) : (
+        <video 
+          ref={videoRef}
+          className={classes.sourcePlayback}
+          src={sourceUrl}
+          hidden={isLoading}
+          autoPlay
+          playsInline
+          controls={false}
+          muted
+          loop
+          onLoadedData={handleVideoLoad}
+        />
+      )}
       {sourcePlayback && props.bodyPix && props.tflite ? (
         <OutputViewer
+          canvasRef={props.canvasRef}
           sourcePlayback={sourcePlayback}
           backgroundConfig={props.backgroundConfig}
           segmentationConfig={props.segmentationConfig}
@@ -56,7 +124,7 @@ const useStyles = makeStyles((theme) => {
       overflow: 'hidden',
 
       [theme.breakpoints.up('md')]: {
-        gridColumnStart: 1,
+        gridColumnStart: 2,
         gridColumnEnd: 3,
       },
 
@@ -70,6 +138,12 @@ const useStyles = makeStyles((theme) => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    sourcePlayback: {
+      visibility: 'hidden',
+      display: 'flex',
+      width: 0,
+      height: 0,
     },
     avatar: {
       width: theme.spacing(20),

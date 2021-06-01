@@ -3,13 +3,7 @@ import CardContent from '@material-ui/core/CardContent'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import VideocamIcon from '@material-ui/icons/Videocam'
-import ImageButton from '../../shared/components/ImageButton'
 import SelectionIconButton from '../../shared/components/SelectionIconButton'
-import VideoButton from '../../shared/components/VideoButton'
-import {
-  sourceImageUrls,
-  sourceVideoUrls
-} from '../helpers/sourceHelper'
 
 /*type SourceConfigCardProps = {
   config: SourceConfig
@@ -31,22 +25,6 @@ function SourceConfigCard(props) {
         >
           <VideocamIcon />
         </SelectionIconButton>
-        {sourceImageUrls.map((imageUrl) => (
-          <ImageButton
-            key={imageUrl}
-            imageUrl={imageUrl}
-            active={imageUrl === props.config.url}
-            onClick={() => props.onChange({ type: 'image', url: imageUrl })}
-          />
-        ))}
-        {sourceVideoUrls.map((videoUrl) => (
-          <VideoButton
-            key={videoUrl}
-            videoUrl={videoUrl}
-            active={videoUrl === props.config.url}
-            onClick={() => props.onChange({ type: 'video', url: videoUrl })}
-          />
-        ))}
       </CardContent>
     </Card>
   )
@@ -56,6 +34,15 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flex: 1,
+      [theme.breakpoints.up('md')]: {
+        gridColumnStart: 3,
+        gridColumnEnd: 4,
+      },
+
+      [theme.breakpoints.up('lg')]: {
+        gridRowStart: 1,
+        gridRowEnd: 2,
+      },
     },
   })
 )

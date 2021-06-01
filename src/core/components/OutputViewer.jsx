@@ -1,7 +1,7 @@
-import { createStyles, makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import React, { useEffect } from 'react'
-import useRenderingPipeline from '../hooks/useRenderingPipeline'
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import React, { useEffect } from 'react';
+import useRenderingPipeline from '../hooks/useRenderingPipeline';
 
 /*type OutputViewerProps = {
   sourcePlayback: SourcePlayback
@@ -14,10 +14,10 @@ import useRenderingPipeline from '../hooks/useRenderingPipeline'
 
 function OutputViewer(props) {
   const classes = useStyles()
+//-----------------------------------------------------------------------------------------------------------------------
   const {
     pipeline,
     backgroundImageRef,
-    canvasRef,
     fps,
     durations: [resizingDuration, inferenceDuration, postProcessingDuration],
   } = useRenderingPipeline(
@@ -25,7 +25,8 @@ function OutputViewer(props) {
     props.backgroundConfig,
     props.segmentationConfig,
     props.bodyPix,
-    props.tflite
+    props.tflite,
+    props.canvasRef
   )
 
   useEffect(() => {
@@ -56,7 +57,7 @@ function OutputViewer(props) {
         // The key attribute is required to create a new canvas when switching
         // context mode
         key={props.segmentationConfig.pipeline}
-        ref={canvasRef}
+        ref={props.canvasRef}
         className={classes.render}
         width={props.sourcePlayback.width}
         height={props.sourcePlayback.height}
@@ -64,6 +65,7 @@ function OutputViewer(props) {
       <Typography className={classes.stats} variant="caption">
         {stats}
       </Typography>
+      
     </div>
   )
 }

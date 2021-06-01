@@ -53,6 +53,15 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flex: 1,
+      [theme.breakpoints.up('md')]: {
+        gridColumnStart: 3,
+        gridColumnEnd: 4,
+      },
+
+      [theme.breakpoints.up('lg')]: {
+        gridRowStart: 2,
+        gridRowEnd: 3,
+      },
     },
   })
 )
