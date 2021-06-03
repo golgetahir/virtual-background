@@ -13,13 +13,13 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
      this.peerconnection_config = null;
      this.sdp_constraints = null;
      this.remotePeerConnection = [];
-     this.remotePeerConnectionStats = new Array();
-     this.remoteDescriptionSet = new Array();
-     this.iceCandidateList = new Array();
+     this.remotePeerConnectionStats = [];
+     this.remoteDescriptionSet = [];
+     this.iceCandidateList = [];
      this.roomName = null;
      this.videoTrackSender = null;
      this.audioTrackSender = null;
-     this.playStreamId = new Array();
+     this.playStreamId = [];
      this.currentVolume = null;
      this.originalAudioTrackGainNode = null;
      this.videoTrack = null;
@@ -190,7 +190,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
    }
    getDevices(){
      navigator.mediaDevices.enumerateDevices().then(devices => {
-       let deviceArray = new Array();
+       let deviceArray = [];
        let checkAudio = false
        devices.forEach(device => {	
          if (device.kind === "audioinput" || device.kind === "videoinput") {
@@ -248,7 +248,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
          }
          else if(this.publishMode === "screen+camera" ){
            if(audioTrack.length > 0 ){
-             var mixedStream = this.mixAudioStreams(stream, audioStream, streamId);
+             mixedStream = this.mixAudioStreams(stream, audioStream, streamId);
              this.updateAudioTrack(mixedStream,streamId,null);
              this.setDesktopwithCameraSource(stream,streamId, mixedStream,onended);
            }
@@ -464,8 +464,9 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
  
    publish(streamId, token, subscriberId, subscriberCode) 
    {
+     var jsCmd;
      if (this.onlyDataChannel) {
-       var jsCmd = {
+        jsCmd = {
          command : "publish",
          streamId : streamId,
          token : token,
@@ -479,7 +480,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
      else if(this.localStream === null){
        this.navigatorUserMedia(this.mediaConstraints, (stream => {
          this.gotStream(stream);
-         var jsCmd = {
+         jsCmd = {
            command : "publish",
            streamId : streamId,
            token : token,
@@ -492,7 +493,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
        }), false);
      } 
      else{
-       var jsCmd = {
+       jsCmd = {
            command : "publish",
            streamId : streamId,
            token : token,
@@ -1083,7 +1084,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
        console.log("stream id in init peer connection: " + streamId + " close stream id: " + closedStreamId);
        this.remotePeerConnection[streamId] = new RTCPeerConnection(this.peerconnection_config);
        this.remoteDescriptionSet[streamId] = false;
-       this.iceCandidateList[streamId] = new Array();
+       this.iceCandidateList[streamId] = [];
        if (!this.playStreamId.includes(streamId))
        {
          if(this.localStream !== null) {
@@ -1674,7 +1675,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
        this.remotePeerConnection[key].close();
      }
      //free the remote peer connection by initializing again
-     this.remotePeerConnection = new Array();
+     this.remotePeerConnection = [];
      this.webSocketAdaptor.close();
    }
  
