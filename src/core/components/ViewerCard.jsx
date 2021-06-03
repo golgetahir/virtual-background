@@ -100,7 +100,7 @@ function ViewerCard(props) {
     <Paper className={classes.root}>
       {isLoading && <CircularProgress />}
       {isCameraError ? (
-        <VideocamOffIcon fontSize="large" />
+        <VideocamOffIcon fontSize="large"/>
       ) : (
         <video 
           ref={videoRef}
@@ -139,9 +139,9 @@ const useStyles = makeStyles((theme) => {
 
   return createStyles({
     root: {
-      minHeight: `calc(min(${minHeight.join(', ')}))`,
-      display: 'flex',
-     
+      //minHeight: `calc(min(${minHeight.join(', ')}))`,
+      //display: 'flex',
+      flex:1,
       //paddingRight:'250px',
       //paddingLeft:'250px',
       /*[theme.breakpoints.up('md')]: {
@@ -158,6 +158,7 @@ const useStyles = makeStyles((theme) => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      background:'#e9ecef',
     },
     sourcePlayback: {
       visibility: 'hidden',
@@ -166,8 +167,8 @@ const useStyles = makeStyles((theme) => {
       height: 0,
     },
     avatar: {
-      width: theme.spacing(20),
-      height: theme.spacing(20),
+      width: '100%',
+      height: '100%',
     },
   })
 })

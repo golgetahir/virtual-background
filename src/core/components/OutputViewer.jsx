@@ -74,13 +74,20 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flex: 1,
-      position: 'relative',
+      //position:'absolute',
+      paddingLeft:'7%',
+      paddingRight: '7%',
+      paddingTop:'10%',
+      /*position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)',*/
+      background:'#e9ecef'
     },
     render: {
-      position: 'absolute',
+      //position: 'absolute',
       width: '100%',
       height: '100%',
       objectFit: 'cover',
+      background:'lightgray',
     },
     stats: {
       position: 'absolute',

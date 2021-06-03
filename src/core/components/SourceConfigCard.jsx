@@ -41,7 +41,10 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flex:1,
-      maxWidth: '640px',
+      paddingLeft:'20%',
+      background:'#e9ecef'
+      /*position: 'absolute', left: '25%', top: '98%',
+      width: '52%'*/
       /*[theme.breakpoints.up('md')]: {
         gridColumnStart: 3,
         gridColumnEnd: 4,

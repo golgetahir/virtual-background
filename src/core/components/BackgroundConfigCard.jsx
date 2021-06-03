@@ -52,7 +52,12 @@ function BackgroundConfigCard(props) {
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      maxWidth: '640px',
+      flex:1,
+      background:'#e9ecef',
+      paddingLeft:'20%',
+      /*position: 'absolute', left: '25%', top: '77%',
+      width: '52%'*/
+      //transform: 'translate(-50%, -50%)',*/
       /*[theme.breakpoints.up('md')]: {
         gridColumnStart: 3,
         gridColumnEnd: 4,
