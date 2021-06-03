@@ -6,6 +6,8 @@ import { WebRTCAdaptor } from "../hooks/webrtc_adaptor";
 
 function PublishButtonCard(props) {
   const classes = useStyles();
+  var webRTCAdaptor = null;
+  var publishStreamId = "stream1"
 
 
   var pc_config = {
@@ -35,8 +37,14 @@ function PublishButtonCard(props) {
       audio : true
     };
 
+  function stopPublishing(){
+    if(webRTCAdaptor !== null){
+      webRTCAdaptor.stop(publishStreamId)
+    }
+  }  
+
   function initWebRTCAdaptor(){
-    const webRTCAdaptor = new WebRTCAdaptor({
+    webRTCAdaptor = new WebRTCAdaptor({
       websocket_url : "ws://ovh36.antmedia.io:5080/LiveApp/websocket",
       mediaConstraints : mediaConstraints,
       peerconnection_config : pc_config,
@@ -50,6 +58,7 @@ function PublishButtonCard(props) {
           console.log("streamId = " + props.streamId);
       
           webRTCAdaptor.publish(props.streamId, null)
+          const publishStreamId = props.streamId;
           
           
         } else if (info === "publish_started") {
@@ -147,7 +156,7 @@ function PublishButtonCard(props) {
     <Card className={classes.root}>
       <CardContent>
       <Button variant="secondary" size="lg" className={classes.butt} onClick={initWebRTCAdaptor} > Start Publishing</Button>
-      <Button variant="secondary" size="lg" className={classes.butt2} onClick={initWebRTCAdaptor} > Stop Publishing</Button>
+      <Button variant="secondary" size="lg" className={classes.butt2} onClick={stopPublishing} > Stop Publishing</Button>
       </CardContent>
     </Card> 
   )

@@ -2,6 +2,7 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import MicOffIcon from '@material-ui/icons/MicOff'
 import ScreenShareIcon from '@material-ui/icons/ScreenShare'
 import VideocamIcon from '@material-ui/icons/Videocam'
 import SelectionIconButton from '../../shared/components/SelectionIconButton'
@@ -31,6 +32,12 @@ function SourceConfigCard(props) {
           onClick={() => props.onChange({ type: 'screen' })}
         >
           <ScreenShareIcon />
+        </SelectionIconButton>
+        <SelectionIconButton
+          active={props.config.audio === 'disabled'}
+          onClick={() => props.onChange({ audio: 'disabled' })}
+        >
+          <MicOffIcon />
         </SelectionIconButton>
       </CardContent>
     </Card>

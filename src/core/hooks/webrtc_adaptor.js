@@ -94,6 +94,8 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
      this.checkBrowserScreenShareSupported();
      this.checkWebRTCPermissions();
      this.checkWebSocketConnection();
+
+     //this.prepareStreamTracks(this.mediaConstraints,true,this.localStream, this.streamId)
      /*if (!this.isPlayMode && !this.onlyDataChannel && typeof this.mediaConstraints !== "undefined" && this.localStream === null)
      {
        console.log("1.ife girdi")
@@ -215,6 +217,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
    {
      //this trick, getting audio and video separately, make us add or remove tracks on the fly
      var audioTrack = stream.getAudioTracks()
+     console.log("audioTrack = " + audioTrack + "stream = " + stream)
      if (audioTrack.length > 0 && this.publishMode === "camera") {
        audioTrack[0].stop();
        stream.removeTrack(audioTrack[0]);
@@ -222,6 +225,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
      //now get only audio to add this stream
      if (audioConstraint !== "undefined" && audioConstraint !== false) {
        var media_audio_constraint = { audio: audioConstraint};
+       console.log("buraya bak = " + media_audio_constraint.audio )
        this.navigatorUserMedia(media_audio_constraint, audioStream => {
  
          audioStream = this.setGainNodeStream(audioStream);
@@ -1157,7 +1161,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
  
    closePeerConnection(streamId) 
    {	
-     if (this.remotePeerConnection[streamId] !== null)
+     if (this.remotePeerConnection[streamId] !== null & this.remotePeerConnection[streamId] !== undefined)
      {
        if (this.remotePeerConnection[streamId].dataChannel !== null) {
          this.remotePeerConnection[streamId].dataChannel.close();
@@ -1174,7 +1178,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
        }
      }
  
-     if (this.remotePeerConnectionStats[streamId] !== null)
+     if (this.remotePeerConnectionStats[streamId] !== null && this.remotePeerConnectionStats[streamId] !== undefined)
      {
        clearInterval(this.remotePeerConnectionStats[streamId].timerId);
        delete this.remotePeerConnectionStats[streamId];

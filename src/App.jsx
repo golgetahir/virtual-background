@@ -18,10 +18,12 @@ import useTFLite from './core/hooks/useTFLite'
 function App() {
   const classes = useStyles()
   const canvasRef = useRef()
+  const adaptorRef = useRef();
 
   //Initialize parameters for segmentation.
   const [sourceConfig, setSourceConfig] = useState({
     type: 'camera',
+    audio: 'enabled'
   })
   const [backgroundConfig, setBackgroundConfig] = useState({
     type: 'image',
@@ -78,9 +80,10 @@ function App() {
           postProcessingConfig={postProcessingConfig}
           bodyPix={bodyPix}
           tflite={tflite}
+          adaptorRef={adaptorRef}
         />
         <StreamIdField onChange={setStreamId} />
-        <PublishButtonsCard canvasRef={canvasRef} streamId={streamId} />
+        <PublishButtonsCard canvasRef={canvasRef} streamId={streamId} adaptorRef={adaptorRef} />
         <SourceConfigCard config={sourceConfig} onChange={setSourceConfig} className={classes.resourceSelectionCards} />
         <BackgroundConfigCard className={classes.resourceSelectionCards}
           config={backgroundConfig}
