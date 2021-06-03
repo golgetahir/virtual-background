@@ -30,7 +30,7 @@ export class WebSocketAdaptor {
       this.wsConn.onmessage = (event) => {
           var obj = JSON.parse(event.data);
 
-          if (obj.command == "start")
+          if (obj.command === "start")
           {
               //this command is received first, when publishing so playmode is false
 
@@ -40,7 +40,7 @@ export class WebSocketAdaptor {
               console.log(obj.streamId);
               this.webrtcadaptor.startPublishing(obj.streamId);
           }
-          else if (obj.command == "takeCandidate") {
+          else if (obj.command === "takeCandidate") {
 
               if (this.debug) {
                   console.debug("received ice candidate for stream id " + obj.streamId);
@@ -49,7 +49,7 @@ export class WebSocketAdaptor {
 
               this.webrtcadaptor.takeCandidate(obj.streamId, obj.label, obj.candidate);
 
-          } else if (obj.command == "takeConfiguration") {
+          } else if (obj.command === "takeConfiguration") {
 
               if (this.debug) {
                   console.log("received remote description type for stream id: " + obj.streamId + " type: " + obj.type );
@@ -57,36 +57,36 @@ export class WebSocketAdaptor {
               this.webrtcadaptor.takeConfiguration(obj.streamId, obj.sdp, obj.type);
 
           }
-          else if (obj.command == "stop") {
+          else if (obj.command === "stop") {
               console.debug("Stop command received");
               this.webrtcadaptor.closePeerConnection(obj.streamId);
           }
-          else if (obj.command == "error") {
+          else if (obj.command === "error") {
               this.callbackError(obj.definition);
           }
-          else if (obj.command == "notification") {
+          else if (obj.command === "notification") {
               this.callback(obj.definition, obj);
-              if (obj.definition == "play_finished" || obj.definition == "publish_finished") {
+              if (obj.definition === "play_finished" || obj.definition === "publish_finished") {
                   this.webrtcadaptor.closePeerConnection(obj.streamId);
               }
           }
-          else if (obj.command == "streamInformation") {
+          else if (obj.command === "streamInformation") {
               this.callback(obj.command, obj);
           }
-          else if (obj.command == "roomInformation") {
+          else if (obj.command === "roomInformation") {
               this.callback(obj.command, obj);
           }
-          else if (obj.command == "pong") {
+          else if (obj.command === "pong") {
               this.callback(obj.command);
           }
-          else if (obj.command == "trackList") {
+          else if (obj.command === "trackList") {
               this.callback(obj.command, obj);
           }
-          else if (obj.command == "connectWithNewId") {
+          else if (obj.command === "connectWithNewId") {
               this.multiPeerStreamId = obj.streamId;
               this.join(obj.streamId);
           }
-          else if (obj.command == "peerMessageCommand") {
+          else if (obj.command === "peerMessageCommand") {
               this.callback(obj.command, obj);
           }
       }
@@ -106,7 +106,7 @@ export class WebSocketAdaptor {
   }
 
   clearPingTimer(){
-      if (this.pingTimerId != -1) {
+      if (this.pingTimerId !== -1) {
           if (this.debug) {
               console.debug("Clearing ping message timer");
           }
@@ -128,7 +128,7 @@ export class WebSocketAdaptor {
 
   send(text){
 
-      if (this.wsConn.readyState == 0 || this.wsConn.readyState == 2 || this.wsConn.readyState == 3) {
+      if (this.wsConn.readyState === 0 || this.wsConn.readyState === 2 || this.wsConn.readyState === 3) {
           this.callbackError("WebSocketNotConnected");
           return;
       }

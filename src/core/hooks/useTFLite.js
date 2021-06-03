@@ -22,9 +22,9 @@ import {
 
 function useTFLite(segmentationConfig) {
   const [tflite, setTFLite] = useState()
-  const [tfliteSIMD, setTFLiteSIMD] = useState()
+  const [tfliteSIMD] = useState()
   const [selectedTFLite, setSelectedTFLite] = useState()
-  const [isSIMDSupported, setSIMDSupported] = useState(false)
+  const [isSIMDSupported] = useState(false)
 
   useEffect(() => {
     async function loadTFLite() {

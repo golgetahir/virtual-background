@@ -69,7 +69,7 @@ export class PeerStats {
   set currentTime(timestamp) {
       this.lastTime = this.currentTimestamp;
       this.currentTimestamp = timestamp;
-      if (this.startTime == 0) {
+      if (this.startTime === 0) {
           this.startTime = timestamp-1; // do not have zero division error
       }
   }
@@ -77,7 +77,7 @@ export class PeerStats {
   set totalBytesReceived(bytesReceived) {
       this.lastBytesReceived = this.totalBytesReceivedCount;
       this.totalBytesReceivedCount = bytesReceived;
-      if (this.firstBytesReceivedCount == 0) {
+      if (this.firstBytesReceivedCount === 0) {
           this.firstBytesReceivedCount = bytesReceived;
       }
   }
@@ -85,14 +85,14 @@ export class PeerStats {
   set totalBytesSent(bytesSent) {
       this.lastBytesSent = this.totalBytesSentCount;
       this.totalBytesSentCount = bytesSent;
-      if (this.firstByteSentCount == 0) {
+      if (this.firstByteSentCount === 0) {
           this.firstByteSentCount = bytesSent;
       }
   }
   set totalFramesEncoded(framesEncoded) {
       this.lastFramesEncoded = this.totalFramesEncodedCount;
       this.totalFramesEncodedCount = framesEncoded;
-      if (this.lastFramesEncoded == 0) {
+      if (this.lastFramesEncoded === 0) {
           this.lastFramesEncoded = framesEncoded;
       }
   }

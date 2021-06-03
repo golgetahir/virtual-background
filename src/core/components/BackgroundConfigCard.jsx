@@ -52,8 +52,8 @@ function BackgroundConfigCard(props) {
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      flex: 1,
-      [theme.breakpoints.up('md')]: {
+      maxWidth: '640px',
+      /*[theme.breakpoints.up('md')]: {
         gridColumnStart: 3,
         gridColumnEnd: 4,
       },
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) =>
       [theme.breakpoints.up('lg')]: {
         gridRowStart: 2,
         gridRowEnd: 3,
-      },
+      },*/
     },
   })
 )

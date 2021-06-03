@@ -1,5 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 import { useEffect, useRef, useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import Jumbotron from 'react-bootstrap/Jumbotron'
 import BackgroundConfigCard from './core/components/BackgroundConfigCard'
 import SourceConfigCard from './core/components/SourceConfigCard'
 import ViewerCard from './core/components/ViewerCard'
@@ -13,6 +15,8 @@ import { WebRTCAdaptor } from './core/hooks/webrtc_adaptor'
 function App() {
   const classes = useStyles()
   const canvasRef = useRef()
+
+  //Initialize parameters for segmentation.
   const [sourceConfig, setSourceConfig] = useState({
     type: 'camera',
   })
@@ -20,6 +24,9 @@ function App() {
     type: 'image',
     url: backgroundImageUrls[0],
   })
+  
+  //By default we use google meet segmentation model and WASM for back end since WASMSIMD is not supported in some cases
+  //Meet with webgl2 performs better than canvas2d and bodypix.
   const [
     segmentationConfig,
     setSegmentationConfig,
@@ -31,7 +38,6 @@ function App() {
   })
   const [
     postProcessingConfig,
-    setPostProcessingConfig,
   ] = useState({
     smoothSegmentationMask: true,
     jointBilateralFilter: { sigmaSpace: 1, sigmaColor: 0.1 },
@@ -41,18 +47,14 @@ function App() {
   })
   const bodyPix = useBodyPix()
   const { tflite, isSIMDSupported } = useTFLite(segmentationConfig)
-
-  var buttonStyle = {
-    margin: '5px 5px 5px 0'
-  };
   
   useEffect(() => {
     setSegmentationConfig((previousSegmentationConfig) => {
-      if (previousSegmentationConfig.backend === 'wasm' && isSIMDSupported) {
+      /*if (previousSegmentationConfig.backend === 'wasm' && isSIMDSupported) {
         return { ...previousSegmentationConfig, backend: 'wasmSimd' }
-      } else {
+      } else {*/
         return previousSegmentationConfig
-      }
+      //}
     })
   }, [isSIMDSupported])
 
@@ -159,7 +161,7 @@ function App() {
         if (typeof message !== "undefined") {
           errorMessage = message;
         }
-        var errorMessage = JSON.stringify(error);
+        errorMessage = JSON.stringify(error);
         if (error.indexOf("NotFoundError") !== -1) {
           errorMessage = "Camera or Mic are not found or not allowed in your device";
         }
@@ -191,21 +193,23 @@ function App() {
 
   return (
     <div className={classes.root}>
-      <ViewerCard
-        canvasRef={canvasRef}
-        sourceConfig={sourceConfig}
-        backgroundConfig={backgroundConfig}
-        segmentationConfig={segmentationConfig}
-        postProcessingConfig={postProcessingConfig}
-        bodyPix={bodyPix}
-        tflite={tflite}
-      />
-      <SourceConfigCard config={sourceConfig} onChange={setSourceConfig} />
-      <BackgroundConfigCard
-        config={backgroundConfig}
-        onChange={setBackgroundConfig}
-      />
-      <input type='button' value="button" onClick={initWebRTCAdaptor}/>
+      <Jumbotron fluid className={classes.jumbot}>
+        <ViewerCard
+          canvasRef={canvasRef}
+          sourceConfig={sourceConfig}
+          backgroundConfig={backgroundConfig}
+          segmentationConfig={segmentationConfig}
+          postProcessingConfig={postProcessingConfig}
+          bodyPix={bodyPix}
+          tflite={tflite}
+        />
+        <SourceConfigCard config={sourceConfig} onChange={setSourceConfig} className={classes.resourceSelectionCards} />
+        <BackgroundConfigCard className={classes.resourceSelectionCards}
+          config={backgroundConfig}
+          onChange={setBackgroundConfig}
+        />
+        <Button variant="secondary" size="lg" className={classes.butt} onClick={initWebRTCAdaptor}> Start Publishing</Button>
+      </Jumbotron>
     </div>
   )
 }
@@ -213,28 +217,45 @@ function App() {
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      display: 'grid',
+      //overflow: 'scroll',
+      display: 'flex',
 
-      [theme.breakpoints.up('xs')]: {
+      /*[theme.breakpoints.up('xs')]: {
         margin: theme.spacing(1),
         gap: theme.spacing(1),
         gridTemplateColumns: '1fr',
       },
-
-      [theme.breakpoints.up('md')]: {
-        margin: theme.spacing(2),
-        gap: theme.spacing(2),
-        gridTemplateColumns: 'repeat(2, 1fr)',
-      },
-
       [theme.breakpoints.up('lg')]: {
         gridTemplateColumns: 'repeat(3, 1fr)',
-      },
+      },*/
+    },
+    jumbot: {
+     /*position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)',
+      maxHeight:'75%',
+      maxWidth:'75%',*/
+       background:'blue'
+
     },
     resourceSelectionCards: {
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'row',
     },
+    butt:{
+      display: 'flex',
+      color: 'white',
+      background:'blue',
+      
+      /*[theme.breakpoints.up('md')]: {
+        gridColumnStart: 2,
+        gridColumnEnd: 3,
+      },
+
+      [theme.breakpoints.up('lg')]: {
+        gridRowStart: 3,
+        gridRowEnd: 4,
+      },*/
+    }
   })
 )
 

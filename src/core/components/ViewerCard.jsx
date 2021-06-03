@@ -42,7 +42,7 @@ function ViewerCard(props) {
     async function getCameraStream() {
       console.log("get camera stream called")
       try {
-        const constraint = { video: true }
+        const constraint = { video: true, audio: true }
         const stream = await navigator.mediaDevices.getUserMedia(constraint)
         if (videoRef.current) {
           videoRef.current.srcObject = stream
@@ -54,10 +54,30 @@ function ViewerCard(props) {
       setLoading(false)
       setCameraError(true)
     }
+  async function getDesktopStream(){
+    console.log("get screen share stream called")
+      try {
+        const constraint = { video: true, audio: true }
+        const stream = await navigator.mediaDevices.getDisplayMedia(constraint)
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream
+          return
+        }
+      } catch (error) {
+        console.error('Error opening video camera.', error)
+      }
+      setLoading(false)
+      setCameraError(true)
+    }
+
     console.log("type check = " + props.sourceConfig.type)
     if (props.sourceConfig.type === 'camera') {
       getCameraStream()
-    } else if (videoRef.current) {
+    }
+    else if(props.sourceConfig.type === 'screen'){
+      getDesktopStream();
+    } 
+    else if (videoRef.current) {
       videoRef.current.srcObject = null
       videoRef.current.play()
     }
@@ -121,9 +141,10 @@ const useStyles = makeStyles((theme) => {
     root: {
       minHeight: `calc(min(${minHeight.join(', ')}))`,
       display: 'flex',
-      overflow: 'hidden',
-
-      [theme.breakpoints.up('md')]: {
+     
+      //paddingRight:'250px',
+      //paddingLeft:'250px',
+      /*[theme.breakpoints.up('md')]: {
         gridColumnStart: 2,
         gridColumnEnd: 3,
       },
@@ -131,10 +152,9 @@ const useStyles = makeStyles((theme) => {
       [theme.breakpoints.up('lg')]: {
         gridRowStart: 1,
         gridRowEnd: 3,
-      },
+      },*/
     },
     noOutput: {
-      flex: 1,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
