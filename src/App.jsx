@@ -26,12 +26,12 @@ function App() {
   //Initialize parameters for segmentation.
   const [sourceConfig, setSourceConfig] = useState({
     type: 'camera',
-    audio: 'enabled'
   })
   const [backgroundConfig, setBackgroundConfig] = useState({
     type: 'image',
     url: backgroundImageUrls[0],
   })
+  const [audioConfig, setAudioConfig] = useState("enabled")
 
   const [streamId, setStreamId] = useState("stream1");
 
@@ -95,8 +95,9 @@ function App() {
           streamId={streamId} 
           adaptorRef={adaptorRef}
           status={status} 
+          audioConfig={audioConfig}
           onChange={setStatus} />
-        <SourceConfigCard adaptorRef={adaptorRef} config={sourceConfig} onChange={setSourceConfig} className={classes.resourceSelectionCards} />
+        <SourceConfigCard audioConfig={setAudioConfig} adaptorRef={adaptorRef} config={sourceConfig} onChange={setSourceConfig} className={classes.resourceSelectionCards} />
         <BackgroundConfigCard className={classes.resourceSelectionCards}
           config={backgroundConfig}
           onChange={setBackgroundConfig}

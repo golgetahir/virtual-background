@@ -17,30 +17,29 @@ import SelectionIconButton from '../../shared/components/SelectionIconButton'
 
 function SourceConfigCard(props) {
   const classes = useStyles()
+  
   useEffect(()=>{
     console.log(props.config.audio);
   },[props.config.audio])
   function muteAudio(){
+    props.config.audio="disabled"
     if(props.adaptorRef.current !== null & props.adaptorRef.current !== undefined){
-      console.log("1.ifte")
       props.adaptorRef.current.muteLocalMic()
-      props.config.audio="disabled"
-      console.log(props.config.audio);
-      props.onChange({type:props.config.type , audio: 'disabled'  })
+      props.audioConfig('disabled')
     }
     else{
-      console.log("2.ifte")
-      props.onChange({type:props.config.type , audio: 'disabled'  })
-      
+      props.config.audio="disabled"
+      props.audioConfig('disabled')
     }
   }
   function unmuteAudio(){
+    props.config.audio="enabled"
     if(props.adaptorRef.current !== null & props.adaptorRef.current !== undefined){
       props.adaptorRef.current.unmuteLocalMic()
-      props.onChange({type:props.config.type , audio: 'enabled'  })
+      props.audioConfig('enabled')
     }
     else{
-      props.onChange({type:props.config.type , audio: 'enabled'  })
+      props.audioConfig('enabled')
     }
   }
 

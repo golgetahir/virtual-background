@@ -75,7 +75,7 @@ function PublishButtonCard(props) {
           if (info === "initialized") {
             console.log("initialized");
             console.log("streamId = " + props.streamId);
-            if(props.sourceConfig.audio === "disabled"){
+            if(props.audioConfig === "disabled"){
               webRTCAdaptor.muteLocalMic();
             }
         
