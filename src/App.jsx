@@ -13,8 +13,6 @@ import {
 import useBodyPix from './core/hooks/useBodyPix'
 import useTFLite from './core/hooks/useTFLite'
 
-
-
 function App() {
   const classes = useStyles()
   const canvasRef = useRef()
@@ -51,9 +49,9 @@ function App() {
     postProcessingConfig,
   ] = useState({
     smoothSegmentationMask: true,
-    jointBilateralFilter: { sigmaSpace: 1, sigmaColor: 0.1 },
-    coverage: [0.5, 0.75],
-    lightWrapping: 0.3,
+    jointBilateralFilter: { sigmaSpace: 3.6, sigmaColor: 0.37 },
+    coverage: [0.4, 0.7],
+    lightWrapping: 0.1,
     blendMode: 'screen',
   })
   const bodyPix = useBodyPix()
