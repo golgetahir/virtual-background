@@ -84,6 +84,7 @@ async function getDesktopStream(){
         getCameraStream()
       }
       else if(props.sourceConfig.type === 'screen'){
+        props.backgroundConfig.type='none' 
         getDesktopStream();
       } 
       else if (props.videoRef.current) {
