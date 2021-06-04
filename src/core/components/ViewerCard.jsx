@@ -3,7 +3,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Paper from '@material-ui/core/Paper'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 import VideocamOffIcon from '@material-ui/icons/VideocamOff'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import OutputViewer from './OutputViewer'
 
 /*type ViewerCardProps = {
@@ -21,7 +21,7 @@ function ViewerCard(props) {
   const [sourceUrl, setSourceUrl] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isCameraError, setCameraError] = useState(false)
-  const videoRef = useRef()
+  var camerastream = null
 
   useEffect(() => {
     setSourcePlayback(undefined)
@@ -37,49 +37,79 @@ function ViewerCard(props) {
     // progress indicator never disappears
     setTimeout(() => setSourceUrl(props.sourceConfig.url))
   }, [props.sourceConfig])
-  console.log("type check = " + props.sourceConfig.type)
-  useEffect(() => {
-    async function getCameraStream() {
-      console.log("get camera stream called")
-      try {
-        const constraint = { video: true, audio: true }
-        const stream = await navigator.mediaDevices.getUserMedia(constraint)
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream
-          return
-        }
-      } catch (error) {
-        console.error('Error opening video camera.', error)
-      }
-      setLoading(false)
-      setCameraError(true)
-    }
-  async function getDesktopStream(){
-    console.log("get screen share stream called")
-      try {
-        const constraint = { video: true, audio: true }
-        const stream = await navigator.mediaDevices.getDisplayMedia(constraint)
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream
-          return
-        }
-      } catch (error) {
-        console.error('Error opening video camera.', error)
-      }
-      setLoading(false)
-      setCameraError(true)
-    }
 
-    console.log("type check = " + props.sourceConfig.type)
-    if (props.sourceConfig.type === 'camera') {
-      getCameraStream()
+
+  async function getCameraStream() {
+    console.log("get camera stream called")
+    try {
+      const constraint = { video: true }
+      camerastream = await navigator.mediaDevices.getUserMedia(constraint)
+      if (props.videoRef.current) {
+        props.videoRef.current.srcObject = camerastream
+        return camerastream
+      }
+    } catch (error) {
+      console.error('Error opening video camera.', error)
     }
-    else if(props.sourceConfig.type === 'screen'){
-      getDesktopStream();
-    } 
-    else if (videoRef.current) {
-      videoRef.current.srcObject = null
-      videoRef.current.play()
+    setLoading(false)
+    setCameraError(true)
+    console.log("bu stream bu = " + camerastream)
+    return camerastream
+  }
+  
+async function getDesktopStream(){
+  console.log("get screen share stream called")
+    try {
+      const constraint = { video: true }
+      const stream = await navigator.mediaDevices.getDisplayMedia(constraint)
+      if (props.videoRef.current) {
+        props.videoRef.current.srcObject = stream
+        return
+      }
+    } catch (error) {
+      console.error('Error opening video camera.', error)
+    }
+    setLoading(false)
+    setCameraError(true)
+    //return stream
+  }
+
+  
+  useEffect(() => {
+
+    if(props.adaptorRef.current === undefined || props.adaptorRef.current === null){
+      console.log("type check = " + props.sourceConfig.audio)
+      
+      if (props.sourceConfig.type === 'camera') {
+        getCameraStream()
+      }
+      else if(props.sourceConfig.type === 'screen'){
+        getDesktopStream();
+      } 
+      else if (props.videoRef.current) {
+        props.videoRef.current.srcObject = null
+        props.videoRef.current.play()
+      }
+    }
+    else{
+      if (props.sourceConfig.type === 'camera') {
+        camerastream = getCameraStream().then(()=>{
+          console.log("bu stream bu 2= " + camerastream)
+          console.log("cavasRef2= " + props.canvasRef.current)
+          var timerID = setInterval(
+            () => {props.adaptorRef.current.updateVideoTrack(props.canvasRef, props.streamId); console.log("canvreffff = " + props.canvasRef.current); clearInterval(timerID)},
+            1000
+          );
+        })
+      }
+      else if(props.sourceConfig.type === 'screen'){
+        getDesktopStream();
+        props.backgroundConfig.type='none' 
+        var timerID = setInterval(
+          () => {props.adaptorRef.current.updateVideoTrack(props.canvasRef, props.streamId); console.log("canvreffff = " + props.canvasRef.current); clearInterval(timerID)},
+          7000
+          );
+      } 
     }
   }, [props.sourceConfig])
 
@@ -94,8 +124,6 @@ function ViewerCard(props) {
     setLoading(false)
   }
 
-
-
   return (
     <Paper className={classes.root}>
       {isLoading && <CircularProgress />}
@@ -103,15 +131,15 @@ function ViewerCard(props) {
         <VideocamOffIcon fontSize="large"/>
       ) : (
         <video 
-          ref={videoRef}
+          ref={props.videoRef}
           className={classes.sourcePlayback}
           src={sourceUrl}
           hidden={isLoading}
           autoPlay
           playsInline
           controls={false}
-          muted
           loop
+          muted
           onLoadedData={handleVideoLoad}
         />
       )}

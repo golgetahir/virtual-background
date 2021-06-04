@@ -38,7 +38,7 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
      this.debug = false;
      this.viewerInfo = "";
      this.onlyDataChannel = false;
- 
+     
      this.publishMode="camera"; //screen, screen+camera
  
      /**
@@ -74,26 +74,34 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
          this[key] = initialValues[key];
        }
      }
- 
-     this.localStream = this.localVideoId.current.captureStream();
-     console.log(this.localStream);
-     this.remoteVideo = document.getElementById(this.remoteVideoId);
- 
-     // It should be compatible with previous version
-     if(this.mediaConstraints.video === "camera") {
-       this.publishMode="camera";
-     }
-     else if(this.mediaConstraints.video === "screen") {
-       this.publishMode="screen";
-     }
-     else if(this.mediaConstraints.video === "screen+camera") {
-       this.publishMode="screen+camera";
-     }
-         
-     //Check browser support for screen share function
-     this.checkBrowserScreenShareSupported();
-     this.checkWebRTCPermissions();
-     this.checkWebSocketConnection();
+     
+     if(this.localVideoId.current !== null & this.localVideoId.current !== undefined){
+      this.localStream = this.localVideoId.current.captureStream();
+      console.log("audio check = " + this.localStream.getAudioTracks()[0]);
+      var track = this.audioStream.getAudioTracks()[0];
+      console.log("track check = " + track);
+      this.localStream.addTrack(track)
+      console.log("audio check2 = " + this.localStream.getAudioTracks()[0]);
+      
+
+      this.remoteVideo = document.getElementById(this.remoteVideoId);
+  
+      // It should be compatible with previous version
+      if(this.mediaConstraints.video === "camera") {
+        this.publishMode="camera";
+      }
+      else if(this.mediaConstraints.video === "screen") {
+        this.publishMode="screen";
+      }
+      else if(this.mediaConstraints.video === "screen+camera") {
+        this.publishMode="screen+camera";
+      }
+          
+      //Check browser support for screen share function
+      this.checkBrowserScreenShareSupported();
+      this.checkWebRTCPermissions();
+      this.checkWebSocketConnection();
+    }
 
      //this.prepareStreamTracks(this.mediaConstraints,true,this.localStream, this.streamId)
      /*if (!this.isPlayMode && !this.onlyDataChannel && typeof this.mediaConstraints !== "undefined" && this.localStream === null)
@@ -125,6 +133,14 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
        //just playing, it does not open any stream
        this.checkWebSocketConnection();
      }*/
+   }
+   addAudioTrack(stream){
+    var track = stream.getAudioTracks()[0];
+    console.log("track check = " + track);
+    this.localStream.addTrack(track)
+    console.log("audio check = " + this.localStream.getAudioTracks()[0]);
+    this.checkWebSocketConnection();
+    
    }
    setDesktopwithCameraSource(stream, streamId, audioStream, onEndedCallback) 
    {
@@ -839,10 +855,12 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
    updateLocalAudioStream(stream, onEndedCallback) 
    {
      var newAudioTrack = stream.getAudioTracks()[0];
+     console.log("buraya bak audio =" + newAudioTrack)
      
-     if (this.localStream !== null && this.localStream.getAudioTracks()[0] !== null) 
+     if (this.localStream !== null && this.localStream.getAudioTracks()[0] !== null && this.localStream.getAudioTracks()[0] !== undefined) 
      {
        var audioTrack = this.localStream.getAudioTracks()[0];
+       console.log("buraya bak audio2 =" + audioTrack)
        this.localStream.removeTrack(audioTrack);
        audioTrack.stop();
        this.localStream.addTrack(newAudioTrack);
@@ -855,9 +873,9 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
      }
      
  
-     if (this.localVideo !== null) 
+     if (this.localVideoId.current !== null) 
      {   //it can be null
-       this.localVideo.srcObject = this.localStream;
+      this.localVideoId.current.srcObject = this.localStream;
      }
  
      if (onEndedCallback !== null) {
@@ -927,14 +945,16 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
    
    updateAudioTrack (stream, streamId, onEndedCallback) 
    {
-     if (this.remotePeerConnection[streamId] !== null) {
-       var audioTrackSender = this.remotePeerConnection[streamId].getSenders().find(function(s) {
+     console.log("updateAudioTrack called")
+     /*if (this.remotePeerConnection[streamId] !== null ) {
+       this.audioTrackSender = this.remotePeerConnection[streamId].getSenders().find(function(s) {
          return s.track.kind === "audio";
        });
- 
-       if (audioTrackSender) {
-         audioTrackSender.replaceTrack(stream.getAudioTracks()[0]).then(result => {
+       console.log("buraya bak amk2 " + this.audioTrackSender)
+       if (this.audioTrackSender) {
+         this.audioTrackSender.replaceTrack(stream.getAudioTracks()[0]).then(result => {
            this.updateLocalAudioStream(stream, onEndedCallback);
+           console.log("updateAudioTrack audiotracksender")
    
          }).catch(function(error) {
            console.log(error.name);
@@ -944,19 +964,23 @@ import { WebSocketAdaptor } from "./websocket_adaptor.js";
          console.error("AudioTrackSender is undefined or null");
        }
      }
-     else {
+     else {*/
+      console.log("updateAudioTrack local")
        this.updateLocalAudioStream(stream, onEndedCallback);
-     }
+     //}
    }
  
-   updateVideoTrack(stream, streamId, mediaConstraints, onEndedCallback, stopDesktop) 
+   updateVideoTrack(canvRef, streamId, mediaConstraints, onEndedCallback, stopDesktop) 
    {
+     let stream = canvRef.current.captureStream()
      if (this.remotePeerConnection[streamId] !== null) {
        var videoTrackSender = this.remotePeerConnection[streamId].getSenders().find(function(s) {
          return s.track.kind === "video";
        });
  
        if (videoTrackSender) {
+         console.log("video track = " + stream.getVideoTracks()[0])
+         console.log(videoTrackSender)
          videoTrackSender.replaceTrack(stream.getVideoTracks()[0]).then(result => {
            this.updateLocalVideoStream(stream, onEndedCallback, stopDesktop);
    

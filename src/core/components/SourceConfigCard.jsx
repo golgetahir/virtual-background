@@ -2,9 +2,12 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import MicIcon from '@material-ui/icons/Mic'
 import MicOffIcon from '@material-ui/icons/MicOff'
 import ScreenShareIcon from '@material-ui/icons/ScreenShare'
 import VideocamIcon from '@material-ui/icons/Videocam'
+import VideocamOffIcon from '@material-ui/icons/VideocamOff'
+import { useEffect } from 'react'
 import SelectionIconButton from '../../shared/components/SelectionIconButton'
 
 /*type SourceConfigCardProps = {
@@ -14,6 +17,32 @@ import SelectionIconButton from '../../shared/components/SelectionIconButton'
 
 function SourceConfigCard(props) {
   const classes = useStyles()
+  useEffect(()=>{
+    console.log(props.config.audio);
+  },[props.config.audio])
+  function muteAudio(){
+    if(props.adaptorRef.current !== null & props.adaptorRef.current !== undefined){
+      console.log("1.ifte")
+      props.adaptorRef.current.muteLocalMic()
+      props.config.audio="disabled"
+      console.log(props.config.audio);
+      props.onChange({type:props.config.type , audio: 'disabled'  })
+    }
+    else{
+      console.log("2.ifte")
+      props.onChange({type:props.config.type , audio: 'disabled'  })
+      
+    }
+  }
+  function unmuteAudio(){
+    if(props.adaptorRef.current !== null & props.adaptorRef.current !== undefined){
+      props.adaptorRef.current.unmuteLocalMic()
+      props.onChange({type:props.config.type , audio: 'enabled'  })
+    }
+    else{
+      props.onChange({type:props.config.type , audio: 'enabled'  })
+    }
+  }
 
   return (
     <Card className={classes.root}>
@@ -28,14 +57,26 @@ function SourceConfigCard(props) {
           <VideocamIcon />
         </SelectionIconButton>
         <SelectionIconButton
+          active={props.config.type === 'none'}
+          onClick={() => props.onChange({ type: 'none' })}
+        >
+          <VideocamOffIcon />
+        </SelectionIconButton>
+        <SelectionIconButton
           active={props.config.type === 'screen'}
-          onClick={() => props.onChange({ type: 'screen' })}
+          onClick={() => props.onChange({ type: 'screen', audio: 'enabled'  })}
         >
           <ScreenShareIcon />
         </SelectionIconButton>
         <SelectionIconButton
+          active={props.config.audio === 'enabled'}
+          onClick={unmuteAudio}
+        >
+          <MicIcon />
+        </SelectionIconButton>
+        <SelectionIconButton
           active={props.config.audio === 'disabled'}
-          onClick={() => props.onChange({ audio: 'disabled' })}
+          onClick={muteAudio}
         >
           <MicOffIcon />
         </SelectionIconButton>

@@ -19,6 +19,9 @@ function App() {
   const classes = useStyles()
   const canvasRef = useRef()
   const adaptorRef = useRef();
+  const videoRef = useRef();
+
+  const[status,setStatus] = useState("notInitialized")
 
   //Initialize parameters for segmentation.
   const [sourceConfig, setSourceConfig] = useState({
@@ -31,6 +34,7 @@ function App() {
   })
 
   const [streamId, setStreamId] = useState("stream1");
+
   
   //By default we use google meet segmentation model and WASM for back end since WASMSIMD is not supported in some cases
   //Meet with webgl2 performs better than canvas2d and bodypix.
@@ -81,10 +85,18 @@ function App() {
           bodyPix={bodyPix}
           tflite={tflite}
           adaptorRef={adaptorRef}
+          streamId={streamId}
+          videoRef={videoRef}
         />
         <StreamIdField onChange={setStreamId} />
-        <PublishButtonsCard canvasRef={canvasRef} streamId={streamId} adaptorRef={adaptorRef} />
-        <SourceConfigCard config={sourceConfig} onChange={setSourceConfig} className={classes.resourceSelectionCards} />
+        <PublishButtonsCard sourceConfig={sourceConfig} 
+          canvasRef={canvasRef} 
+          videoRef={videoRef} 
+          streamId={streamId} 
+          adaptorRef={adaptorRef}
+          status={status} 
+          onChange={setStatus} />
+        <SourceConfigCard adaptorRef={adaptorRef} config={sourceConfig} onChange={setSourceConfig} className={classes.resourceSelectionCards} />
         <BackgroundConfigCard className={classes.resourceSelectionCards}
           config={backgroundConfig}
           onChange={setBackgroundConfig}
