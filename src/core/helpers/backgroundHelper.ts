@@ -6,6 +6,7 @@ export type BackgroundConfig = {
 export const backgroundImageUrls = [
   'office',
   'space',
+  'disco',
   'porch-691330_1280',
   'shibuyasky-4768679_1280', 
   'beach',
