@@ -159,9 +159,10 @@ const useStyles = makeStyles((theme) => {
       background:'#e9ecef',
     },
     sourcePlayback: {
-      position:'absolute',
+      position: 'absolute',
       visibility:'hidden',
-      paddingTop:'40%'
+      width: '150%',
+      height: '150%',
     },
     avatar: {
       width: '100%',
