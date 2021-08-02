@@ -44,9 +44,7 @@ function PublishButtonCard(props) {
       props.adaptorRef.current.stop(publishStreamId)
     }
   }  
-  function startPublishing(){
-    props.adaptorRef.current.publish(props.streamId)
-  }
+  
   async function getMicrophoneStream(){
     console.log("get microphone stream called")
       try {
