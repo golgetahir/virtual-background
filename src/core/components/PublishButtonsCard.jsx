@@ -1,6 +1,8 @@
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { WebRTCAdaptor } from "../hooks/webrtc_adaptor";
 
@@ -9,7 +11,7 @@ function PublishButtonCard(props) {
   var webRTCAdaptor = null;
   var publishStreamId = "stream1"
   var audioStream = null;
-
+  const [isPublishing, setPublishing] = useState(false)
 
   var pc_config = {
     'iceServers' : [ {
@@ -78,15 +80,16 @@ function PublishButtonCard(props) {
             }
         
             webRTCAdaptor.publish(props.streamId, null)
-            const publishStreamId = props.streamId;
             
             
           } else if (info === "publish_started") {
             //stream is being published
+            setPublishing(true);
             console.log("publish started");
           } else if (info === "publish_finished") {
             //stream is being finished
             console.log("publish finished");
+            setPublishing(false);
           }
           else if (info === "browser_screen_share_supported") {
             console.log("browser screen share supported");
@@ -181,6 +184,11 @@ function PublishButtonCard(props) {
       <Button variant="secondary" size="lg" className={classes.butt} onClick={()=>{initWebRTCAdaptor(); props.onChange("initialized") }} > Start Publishing</Button>
       <Button variant="secondary" size="lg" className={classes.butt2} onClick={stopPublishing} > Stop Publishing</Button>
       </CardContent>
+      {isPublishing && <Typography gutterBottom variant="h6" component="h2" className={classes.typo}>
+          Publishing
+        </Typography>
+        }
+      
     </Card> 
   )
   }
@@ -204,6 +212,10 @@ function PublishButtonCard(props) {
       justifyContent:'center',
       alignItems:'center',
       fontSize:'20px'
+    },
+    typo: {
+      fontSize:'20px',
+      paddingLeft:'30%'
     },
     butt:{
      // marginRight:'105px',
